@@ -51240,7 +51240,11 @@ function (_Component) {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, "test")));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.state.list.map(function (item) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: item
+        }, item);
+      })))));
     }
   }]);
 

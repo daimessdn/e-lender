@@ -19,7 +19,11 @@ class Filter extends Component {
 			<div className="container">
 				<div className="card">
 					<div className="card-body">
-						test
+						<ul>
+				        	{this.state.list.map(item => (
+				        		<li key={item}>{item}</li>
+				        	))}
+				        </ul>
 					</div>
 				</div>
 			</div>
