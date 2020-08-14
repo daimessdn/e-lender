@@ -51203,9 +51203,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -51226,12 +51226,61 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Filter).call(this, props));
     _this.state = {
-      list: ["go to the store", "wash the dishes", "learn some code"]
+      list: ["go to the store", "wash the dishes", "learn some code"],
+      filtered: []
     };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Filter, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        filtered: this.props.items
+      });
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState({
+        filtered: nextProps.items
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(e) {
+      // Variable to hold the original version of the list
+      var currentList = []; // Variable to hold the filtered list before putting into state
+
+      var newList = []; // If the search bar isn't empty
+
+      if (e.target.value !== "") {
+        // Assign the original list to currentList
+        currentList = this.props.items; // Use .filter() to determine which items should be displayed
+        // based on the search terms
+
+        newList = currentList.filter(function (item) {
+          // change current item to lowercase
+          var lc = item.toLowerCase(); // change search term to lowercase
+
+          var filter = e.target.value.toLowerCase(); // check to see if the current list item includes the search term
+          // If it does, it will be added to newList. Using lowercase eliminates
+          // issues with capitalization in search terms and search content
+
+          return lc.includes(filter);
+        });
+      } else {
+        // If the search bar is empty, set newList to original task list
+        newList = this.props.items;
+      } // Set the filtered state based on what our rules added to newList
+
+
+      this.setState({
+        filtered: newList
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -51240,7 +51289,12 @@ function (_Component) {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.state.list.map(function (item) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "input",
+        onChange: this.handleChange,
+        placeholder: "Search..."
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.state.list.map(function (item) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: item
         }, item);
